@@ -34,8 +34,8 @@ from pypdf import PdfMerger
 
 # Below are the inputs for excel file with information and directory path containing hte resumes
 
-excel_file = 'fall2023resumes.xlsx'
-directory = 'fall2023resumesfolder'
+excel_file = 'resumes.xlsx'
+directory = 'resumesfolder'
 
 main_groups = ["analysts", "allpng", "everyone"]
 schools = ['University of Chicago', 'University of Pennsylvania', 'New York University']
@@ -146,8 +146,8 @@ for i in range(len(df)):
 
 
 # Output PDFs
-output_directory_path = "fall2023resumesoutput"
-input_directory_path = 'fall2023resumesfolder'
+output_directory_path = "resumesoutput"
+input_directory_path = 'resumesfolder'
 for category in subcategories:
     merger = PdfMerger()
     for resume in subcategories[category]:
