@@ -75,6 +75,31 @@ subcategories = {
     "allpngfund": [],
                  }
 
+major_occurrences = {
+    'Economics': 0,
+    'Business': 0,
+    'Mathematics': 0,
+    'Statistics': 0,
+    'Computer Science': 0,
+    'Data Science': 0,
+    'Engineering': 0,
+    'Other': 0
+}
+
+grad_year_occurrences = {
+    '2024': 0,
+    '2025': 0,
+    '2026': 0,
+    '2027': 0
+}
+
+png_analysis  = {
+    "pngmember": 0,
+    "pnganalyst": 0,
+    "other":0
+
+}
+
 # Code for getting and parsing info
 df = pd.read_excel(excel_file)
 df.set_index('Timestamp', inplace=True)
@@ -91,6 +116,8 @@ for i in range(len(df)):
     interest_group = df['Interest group'][i]
     interest_group_list = interest_group.split(',')
     relation = df['What is your relation to PNG?'][i]
+    major = df['Major(s) (Select the closest options)'][i]
+    major_list = major.split(', ')
 
     new_school = ""
 
@@ -115,6 +142,7 @@ for i in range(len(df)):
 
     # PNG Analyst
     if relation == "Investment Analyst / Quantitative Analyst":
+        png_analysis["pnganalyst"] += 1
         if "Fundamentals" in interest_group:
             subcategories["analystfund"].append(resume_format)
             subcategories["allpngfund"].append(resume_format)
@@ -127,6 +155,7 @@ for i in range(len(df)):
 
     # PNG Members too
     if relation == "Education Group Member":
+        png_analysis["pngmember"] += 1
         if "Fundamentals" in interest_group:
             subcategories["memberfund"].append(resume_format)
             subcategories["allpngfund"].append(resume_format)
@@ -143,6 +172,24 @@ for i in range(len(df)):
     subcategories["everyoneswe"].append(resume_format)
     subcategories["everyonequant"].append(resume_format)
 
+
+
+
+    # For Data Analysis
+    for major_item in major_list:
+        if major_item in major_occurrences:
+            major_occurrences[major_item] += 1
+        else:
+            major_occurrences['Other'] += 1
+
+    grad_year_occurrences[str(int(grad_year))] += 1
+
+    if relation != "Investment Analyst / Quantitative Analyst" and relation != "Education Group Member":
+        png_analysis["other"] += 1
+
+print(major_occurrences)
+print(grad_year_occurrences)
+print(png_analysis)
 
 
 # Output PDFs
